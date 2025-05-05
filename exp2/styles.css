@@ -1,0 +1,234 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif; /* Change the font family */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f4f8; /* Lighter background */
+    color: #333;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #484c51; /* Change the heading color */
+    font-size: 3em; /* Make it larger */
+  }
+  
+  .navbar {
+    background-color: #393b3e;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .navbar li {
+    margin: 0 20px;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .navbar a:hover {
+    color: #ffcc00; /* Change hover color */
+  }
+  
+  /* Hero Section */
+  .hero {
+    background-color: #dddedf;
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    background-image: url('hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .hero-content h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+  
+  .hero-content p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+  }
+  
+  .cta-btn {
+    background-color: #ff6600;
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .cta-btn:hover {
+    background-color: #cc5200;
+  }
+  
+  /* Product Gallery Section */
+  .product-gallery {
+    padding: 50px 20px;
+    text-align: center;
+  }
+  
+  .product-gallery .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .product-gallery .product-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-gallery .product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .product-gallery .product-card h3 {
+    font-size: 1.5em;
+    margin: 10px 0;
+  }
+  
+  /* Contact Section */
+#contact {
+    background-color: #f7f7f7;
+    padding: 50px 20px;
+  }
+  
+  #contact h2 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  #contact p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 40px;
+  }
+  
+  #contact-form {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+  }
+  
+  .form-group textarea {
+    height: 150px;
+  }
+  
+  button.cta-btn {
+    background-color: #b3304f;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button.cta-btn:hover {
+    background-color: grey;
+  }
+  
+  .contact-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .contact-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .contact-item p {
+    font-size: 1.2em;
+    color: #555;
+  }
+  
+  /* Map Section */
+  .map-container {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .map-container iframe {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  /* Footer */
+  footer {
+    background-color: grey;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  footer .social-icons {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  footer .social-icons li {
+    margin: 0 10px;
+  }
+  
+  footer .social-icons a {
+    color: white;
+    font-size: 1.5em;
+  }
+  
+  footer .social-icons a:hover {
+    color: #ffcc00; /* Social icons hover effect */
+  }
+  
