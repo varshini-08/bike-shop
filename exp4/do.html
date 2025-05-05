@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juice Shop Billing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            background: url('1.jpg') no-repeat center center/cover;
+        }
+        .container {
+            width: 750px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: white;
+            background: linear-gradient(135deg, #ff9800, #ff5722);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .juice-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .juice-btn {
+    background: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    width: 150px;  /* Set a fixed width */
+    height: 50px;  /* Set a fixed height */
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.juice-btn:hover {
+    background: #e64a19;
+}
+
+        .customer-details, .bill-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #fefefe;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 50%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background-color: #ff5722;
+            color: white;
+        }
+        .remove-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ff5722;
+            text-align: right;
+            margin-top: 10px;
+        }
+        #thankYouMessage {
+            text-align: center;
+            font-size: 18px;
+            color: #ff5722;
+            font-weight: bold;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Fresh Juice Shop</h2>
+
+        <!-- Juice Selection -->
+        <div class="juice-list" id="juiceList">
+            <!-- Juice buttons will be generated dynamically -->
+        </div>
+
+        <!-- Customer Details -->
+        <div class="customer-details">
+            <h3>Customer Details</h3>
+            <div class="form-group">
+                <label for="customerName">Name (Eg: Abi):</label>
+                <input type="text" id="customerName" placeholder="Enter customer name">
+            </div>
+            <div class="form-group">
+                <label for="customerMobile">Mobile Number:</label>
+                <input type="text" id="customerMobile" placeholder="Enter mobile number">
+            </div>
+        </div>
+
+        <!-- Bill Section -->
+        <div class="bill-section">
+            <h3>Final Bill</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Juice</th>
+                        <th>Price ()</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="billBody">
+                    <!-- Items will be added dynamically -->
+                </tbody>
+            </table>
+            <div id="total">Total: 0</div>
+            <div id="thankYouMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // List of juices and prices
+        const juices = [
+            { name: "Orange Juice", price: 50 },
+            { name: "Apple Juice", price: 60 },
+            { name: "Mango Juice", price: 70 },
+            { name: "Watermelon Juice", price: 40 },
+            { name: "Pineapple Juice", price: 50 },
+            { name: "Grapes Juice", price: 60 },
+            { name: "Pomegranate Juice", price: 70 },
+            { name: "Lemon Juice", price: 30 },
+            { name: "Carrot Juice", price: 40 },
+            { name: "Beetroot Juice", price: 50 },
+            { name: "Guava Juice", price: 60 },
+            { name: "Banana Shake", price: 70 },
+            { name: "Papaya Juice", price: 50 },
+            { name: "Chikoo Shake", price: 60 },
+            { name: "Avocado Shake", price: 80 },
+            { name: "Strawberry Juice", price: 70 },
+            { name: "Coconut Water", price: 30 },
+            { name: "Litchi Juice", price: 60 },
+            { name: "Sweet Lime Juice", price: 50 },
+            { name: "Black Grape Juice", price: 60 }
+        ];
+
+        let totalAmount = 0;
+
+        // Display juice buttons dynamically
+        const juiceListDiv = document.getElementById("juiceList");
+        juices.forEach(juice => {
+            const button = document.createElement("button");
+            button.classList.add("juice-btn");
+            button.innerText = `${juice.name} - ${juice.price}`;
+            button.onclick = () => addToBill(juice.name, juice.price);
+            juiceListDiv.appendChild(button);
+        });
+// Add selected juice to the bill with quantity
+function addToBill(juiceName, juicePrice) {
+    let quantity = prompt(`Enter quantity for ${juiceName}:`, 1);
+
+    // Check if the user entered a valid quantity
+    if (quantity === null || isNaN(quantity) || quantity <= 0) {
+        alert("Please enter a valid quantity.");
+        return;
+    }
+
+    quantity = parseInt(quantity);
+    let totalPrice = juicePrice * quantity;
+
+    const table = document.getElementById("billBody");
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${juiceName} (x${quantity})</td>
+        <td>${totalPrice.toFixed(2)}</td>
+        <td><button class="remove-btn" onclick="removeItem(this, ${totalPrice})">Remove</button></td>
+    `;
+    table.appendChild(row);
+
+    totalAmount += totalPrice;
+    updateTotal();
+    updateThankYouMessage();
+}
+
+
+        // Remove item from the bill
+        function removeItem(button, price) {
+            button.parentElement.parentElement.remove();
+            totalAmount -= price;
+            updateTotal();
+            updateThankYouMessage();
+        }
+
+        // Update total amount
+        function updateTotal() {
+            document.getElementById("total").innerText = `Total: ${totalAmount.toFixed(2)}`;
+        }
+
+        // Show "Thank You" message with customer name
+        function updateThankYouMessage() {
+            const customerName = document.getElementById("customerName").value.trim();
+            const messageDiv = document.getElementById("thankYouMessage");
+
+            if (customerName) {
+                messageDiv.innerText = `Thanks for visiting, ${customerName} sir!`;
+                messageDiv.style.display = "block";
+            } else {
+                messageDiv.style.display = "none";
+            }
+        }
+
+        // Update message on name input change
+        document.getElementById("customerName").addEventListener("input", updateThankYouMessage);
+    </script>
+</body>
+</html>
