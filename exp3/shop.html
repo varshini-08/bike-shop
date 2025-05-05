@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bike Showroom - Shop</title>
+    <link rel="stylesheet" href="shop.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Bike Showroom</h1>
+            <nav>
+                <ul>
+                    <li><a href="roo.html">Home</a></li>
+                    <li><a href="show.html">About Us</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="ss.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="product-gallery" class="product-gallery">
+        <div class="container">
+            <h2>Our Bikes Available</h2>
+            <div class="gallery">
+                <!-- Bike 1 Card -->
+                <div class="product-card">
+                    <img src="a8.jpg" alt="Mountain Bike">
+                    <h3>Mountain Bike</h3>
+                    <p><strong>Price:</strong> $600</p>
+                    <p><strong>Features:</strong> Durable frame, shock absorption, 21 gears</p>
+                    <button class="cta-btn" onclick="openModal('modal1')">View Details</button>
+                </div>
+
+                <!-- Bike 2 Card -->
+                <div class="product-card">
+                    <img src="a7.jpg" alt="Road Bike">
+                    <h3>Road Bike</h3>
+                    <p><strong>Price:</strong> $800</p>
+                    <p><strong>Features:</strong> Lightweight frame, aerodynamic design, 18 gears</p>
+                    <button class="cta-btn" onclick="openModal('modal2')">View Details</button>
+                </div>
+
+                <!-- Bike 3 Card -->
+                <div class="product-card">
+                    <img src="a6.jpg" alt="Electric Bike">
+                    <h3>Electric Bike</h3>
+                    <p><strong>Price:</strong> $1200</p>
+                    <p><strong>Features:</strong> Electric motor assist, long-lasting battery, comfortable seat</p>
+                    <button class="cta-btn" onclick="openModal('modal3')">View Details</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Bike 1 -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h2>Mountain Bike</h2>
+            <img src="a9.jpg" alt="Mountain Bike">
+            <p><strong>Price:</strong> $600</p>
+            <p><strong>Features:</strong> Durable frame, shock absorption, 21 gears, suitable for rugged terrains.</p>
+            <a href="purchase.html" class="cta-btn">Buy Now</a>
+        </div>
+    </div>
+
+    <!-- Modal for Bike 2 -->
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <h2>Road Bike</h2>
+            <img src="a4.jpg" alt="Road Bike">
+            <p><strong>Price:</strong> $800</p>
+            <p><strong>Features:</strong> Lightweight frame, aerodynamic design, 18 gears, ideal for road cycling.</p>
+            <a href="purchase.html" class="cta-btn">Buy Now</a>
+        </div>
+    </div>
+
+    <!-- Modal for Bike 3 -->
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <h2>Electric Bike</h2>
+            <img src="a7.jpg" alt="Electric Bike">
+            <p><strong>Price:</strong> $1200</p>
+            <p><strong>Features:</strong> Electric motor assist, long-lasting battery, comfortable seat, smooth ride.</p>
+            <a href="purchase.html" class="cta-btn">Buy Now</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bike Showroom. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to open the modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        // Function to close the modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    </script>
+</body>
+</html>
