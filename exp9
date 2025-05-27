@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Splitter - SplitEase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+</head>
+<body class="bg-gray-50 font-[Inter]">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-sm p-6 flex flex-col">
+      <div class="flex items-center gap-3 mb-10">
+        <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+        <h1 class="text-xl font-bold text-gray-800">SplitEase</h1>
+      </div>
+      
+      <nav class="space-y-3">
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg bg-purple-50 text-purple-700 font-medium">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+          </svg>
+          Dashboard
+        </a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 12.094A5.973 5.973 0 004 15v1H1v-1a3 3 0 013.75-2.906z" />
+          </svg>
+          Groups
+        </a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd" />
+          </svg>
+          New Group
+        </a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+          </svg>
+          Expenses
+        </a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          Reports
+        </a>
+      </nav>
+      
+      <div class="mt-auto">
+        <div class="p-4 bg-gray-100 rounded-lg">
+          <p class="text-sm text-gray-600">Need help?</p>
+          <a href="#" class="text-sm font-medium text-purple-600 hover:text-purple-700">Contact Support</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800">Group Expenses</h2>
+          <p class="text-gray-600">Track and split bills with your group</p>
+        </div>
+        <button id="newExpenseBtn" class="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Add Expense
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Summary Card -->
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <h3 class="font-medium text-gray-700 mb-4">Summary</h3>
+          <div class="space-y-4">
+            <div>
+              <p class="text-sm text-gray-500">Total Expenses</p>
+              <p class="text-2xl font-bold text-gray-800">₹2,450</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Your Balance</p>
+              <p class="text-xl font-bold text-green-600">+₹320</p>
+            </div>
+            <div class="pt-4 border-t border-gray-200">
+              <p class="text-sm text-gray-500">Members</p>
+              <div class="flex -space-x-2 mt-2">
+                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Member">
+                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Member">
+                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Member">
+                <img class="w-8 h-8 rounded-full border-2 border-white" src="https://randomuser.me/api/portraits/men/75.jpg" alt="Member">
+                <div class="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-medium text-gray-500">+2</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expense Chart -->
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <h3 class="font-medium text-gray-700 mb-4">Expense Breakdown</h3>
+          <div class="h-64">
+            <canvas id="expenseChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white p-6 rounded-xl shadow-sm">
+          <h3 class="font-medium text-gray-700 mb-4">Recent Activity</h3>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">You added ₹850 for Dinner</p>
+                <p class="text-xs text-gray-500">Today, 7:30 PM</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">Rahul paid ₹1,200 for Hotel</p>
+                <p class="text-xs text-gray-500">Yesterday, 11:45 AM</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-800">You added ₹400 for Taxi</p>
+                <p class="text-xs text-gray-500">Yesterday, 9:15 AM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expense List -->
+      <div class="mt-8 bg-white rounded-xl shadow-sm overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+          <h3 class="font-medium text-gray-700">All Expenses</h3>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div class="p-4 hover:bg-gray-50">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-800">Dinner at Beachside Cafe</p>
+                  <p class="text-sm text-gray-500">Paid by You • Today, 7:30 PM</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="font-medium text-gray-800">₹850</p>
+                <p class="text-sm text-gray-500">Split equally</p>
+              </div>
+            </div>
+          </div>
+          <!-- More expense items -->
+        </div>
+      </div>
+
+      <!-- Add Expense Modal -->
+      <div id="expenseModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-xl w-full max-w-md">
+          <div class="p-6 border-b border-gray-200">
+            <h3 class="font-medium text-gray-800">Add New Expense</h3>
+          </div>
+          
+          <div class="p-6">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <input type="text" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-purple-500 focus:border-purple-500" placeholder="What was this expense for?">
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Amount</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <span class="text-gray-500">₹</span>
+                  </div>
+                  <input type="number" class="w-full border border-gray-300 rounded-lg pl-8 pr-4 py-2 focus:ring-purple-500 focus:border-purple-500" placeholder="0.00">
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Paid by</label>
+                <select class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-purple-500 focus:border-purple-500">
+                  <option>You</option>
+                  <option>Rahul</option>
+                  <option>Priya</option>
+                  <option>Amit</option>
+                </select>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Split between</label>
+                <div class="space-y-2">
+                  <div class="flex items-center">
+                    <input id="you" type="checkbox" checked class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <label for="you" class="ml-2 block text-sm text-gray-700">You</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input id="rahul" type="checkbox" checked class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <label for="rahul" class="ml-2 block text-sm text-gray-700">Rahul</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input id="priya" type="checkbox" checked class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <label for="priya" class="ml-2 block text-sm text-gray-700">Priya</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input id="amit" type="checkbox" checked class="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+                    <label for="amit" class="ml-2 block text-sm text-gray-700">Amit</label>
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Bill Image (Optional)</label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                  <div class="space-y-1 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="flex text-sm text-gray-600">
+                      <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none">
+                        <span>Upload a file</span>
+                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                      </label>
+                      <p class="pl-1">or drag and drop</p>
+                    </div>
+                    <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-4 border-t border-gray-200 flex justify-end gap-3">
+            <button id="cancelExpenseBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">Cancel</button>
+            <button class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">Add Expense</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize chart
+      const ctx = document.getElementById('expenseChart').getContext('2d');
+      const expenseChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Food', 'Transport', 'Accommodation', 'Activities', 'Other'],
+          datasets: [{
+            data: [850, 400, 1200, 0, 0],
+            backgroundColor: [
+              '#8B5CF6',
+              '#EC4899',
+              '#10B981',
+              '#3B82F6',
+              '#F59E0B'
+            ],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          cutout: '70%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                usePointStyle: true,
+                padding: 20
+              }
+            }
+          }
+        }
+      });
+
+      // Expense modal handling
+      const newExpenseBtn = document.getElementById('newExpenseBtn');
+      const expenseModal = document.getElementById('expenseModal');
+      const cancelExpenseBtn = document.getElementById('cancelExpenseBtn');
+      
+      newExpenseBtn.addEventListener('click', function() {
+        expenseModal.classList.remove('hidden');
+      });
+      
+      cancelExpenseBtn.addEventListener('click', function() {
+        expenseModal.classList.add('hidden');
+      });
+      
+      // Bill image processing (OCR)
+      const fileUpload = document.getElementById('file-upload');
+      const amountInput = document.querySelector('input[type="number"]');
+      
+      fileUpload.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+          const file = e.target.files[0];
+          
+          // Show loading state
+          const uploadArea = document.querySelector('.border-dashed');
+          uploadArea.innerHTML = `
+            <div class="flex flex-col items-center">
+              <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mb-2"></div>
+              <p class="text-sm text-gray-600">Processing bill...</p>
+            </div>
+          `;
+          
+          // Process with Tesseract.js
+          Tesseract.recognize(
+            file,
+            'eng',
+            { logger: m => console.log(m) }
+          ).then(({ data: { text } }) => {
+            console.log('OCR Result:', text);
+            
+            // Simple amount extraction (can be improved)
+            const amountMatches = text.match(/(\d+\.\d{2})|(\d+\,\d{2})|(\d+)/g);
+            if (amountMatches && amountMatches.length > 0) {
+              const amounts = amountMatches.map(match => 
+                parseFloat(match.replace(',', '.').replace(/[^\d.-]/g, ''))
+              );
+              const maxAmount = Math.max(...amounts);
+              
+              if (!isNaN(maxAmount) && isFinite(maxAmount)) {
+                amountInput.value = maxAmount.toFixed(2);
+                // Generate description based on bill content
+                generateDescription(text, maxAmount);
+              }
+            }
+            
+            // Restore upload area
+            uploadArea.innerHTML = `
+              <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <div class="flex text-sm text-gray-600">
+                <p class="text-center">Bill processed successfully</p>
+              </div>
+              <p class="text-xs text-gray-500">Amount detected: ₹${amountInput.value || '0.00'}</p>
+            `;
+          }).catch(err => {
+            console.error('OCR Error:', err);
+            uploadArea.innerHTML = `
+              <svg class="mx-auto h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div class="flex text-sm text-gray-600">
+                <p class="text-center text-red-500">Failed to process bill</p>
+              </div>
+              <p class="text-xs text-gray-500">Please enter amount manually</p>
+            `;
+          });
+        }
+      });
+
+      // Generate description based on bill content
+      function generateDescription(text, amount) {
+        const descriptionInput = document.querySelector('input[type="text"]');
+        const commonKeywords = {
+          'restaurant': ['restaurant', 'cafe', 'diner', 'eatery', 'bistro'],
+          'grocery': ['grocery', 'supermarket', 'mart', 'market'],
+          'transport': ['taxi', 'uber', 'lyft', 'transport', 'ride'],
+          'hotel': ['hotel', 'inn', 'resort', 'lodging'],
+          'shopping': ['mall', 'store', 'shop', 'retail']
+        };
+        
+        let generatedDesc = '';
+        
+        // Check for common keywords
+        for (const [category, keywords] of Object.entries(commonKeywords)) {
+          if (keywords.some(keyword => text.toLowerCase().includes(keyword))) {
+            generatedDesc = `${category.charAt(0).toUpperCase() + category.slice(1)}`;
+            break;
+          }
+        }
+        
+        // Try to extract merchant name
+        const merchantMatch = text.match(/^[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/);
+        if (merchantMatch && merchantMatch[0]) {
+          generatedDesc = merchantMatch[0];
+        }
+        
+        // Fallback to amount-based description
+        if (!generatedDesc) {
+          if (amount < 500) {
+            generatedDesc = 'Small expense';
+          } else if (amount < 2000) {
+            generatedDesc = 'Medium expense';
+          } else {
+            generatedDesc = 'Large expense';
+          }
+        }
+        
+        descriptionInput.value = generatedDesc;
+      }
+
+      // Add expense form submission
+      const addExpenseForm = document.querySelector('#expenseModal button.bg-purple-600');
+      const expenseList = document.querySelector('.divide-y');
+      
+      addExpenseForm.addEventListener('click', function() {
+        const description = document.querySelector('#expenseModal input[type="text"]').value;
+        const amount = document.querySelector('#expenseModal input[type="number"]').value;
+        const paidBy = document.querySelector('#expenseModal select').value;
+        
+        if (!description || !amount) {
+          alert('Please enter description and amount');
+          return;
+        }
+        
+        // Create new expense item
+        const now = new Date();
+        const timeOptions = { hour: '2-digit', minute: '2-digit' };
+        const dateOptions = { month: 'short', day: 'numeric' };
+        const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+        const dateStr = now.toLocaleDateString('en-US', dateOptions);
+        
+        const expenseItem = document.createElement('div');
+        expenseItem.className = 'p-4 hover:bg-gray-50';
+        expenseItem.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center text-purple-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800">${description}</p>
+                <p class="text-sm text-gray-500">Paid by ${paidBy} • ${dateStr}, ${timeStr}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-medium text-gray-800">₹${parseFloat(amount).toFixed(2)}</p>
+              <p class="text-sm text-gray-500">Split equally</p>
+            </div>
+          </div>
+        `;
+        
+        // Add to top of expense list
+        expenseList.prepend(expenseItem);
+        
+        // Close modal and reset form
+        expenseModal.classList.add('hidden');
+        document.querySelector('#expenseModal input[type="text"]').value = '';
+        document.querySelector('#expenseModal input[type="number"]').value = '';
+        document.querySelector('.border-dashed').innerHTML = `
+          <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="flex text-sm text-gray-600">
+            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-purple-600 hover:text-purple-500 focus-within:outline-none">
+              <span>Upload a file</span>
+              <input id="file-upload" name="file-upload" type="file" class="sr-only">
+            </label>
+            <p class="pl-1">or drag and drop</p>
+          </div>
+          <p class="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+        `;
+        
+        // Update summary and chart
+        updateSummary(parseFloat(amount));
+        updateChart(description, parseFloat(amount));
+      });
+      
+      // Update summary card
+      function updateSummary(amount) {
+        const totalElement = document.querySelector('.text-2xl.font-bold.text-gray-800');
+        const currentTotal = parseFloat(totalElement.textContent.replace(/[^0-9.-]+/g,""));
+        totalElement.textContent = `₹${(currentTotal + amount).toLocaleString('en-IN')}`;
+        
+        // Simple balance calculation (could be more sophisticated)
+        const balanceElement = document.querySelector('.text-xl.font-bold.text-green-600');
+        const currentBalance = parseFloat(balanceElement.textContent.replace(/[^0-9.-]+/g,""));
+        balanceElement.textContent = `+₹${(currentBalance + (amount/4)).toFixed(0)}`; // Assuming 4 people
+      }
+      
+      // Update chart with new expense
+      function updateChart(description, amount) {
+        const chart = expenseChart;
+        const labels = chart.data.labels;
+        const data = chart.data.datasets[0].data;
+        
+        // Categorize expense based on description
+        let category = 'Other';
+        if (description.toLowerCase().includes('food') || description.toLowerCase().includes('dinner') || description.toLowerCase().includes('lunch')) {
+          category = 'Food';
+        } else if (description.toLowerCase().includes('taxi') || description.toLowerCase().includes('transport')) {
+          category = 'Transport';
+        } else if (description.toLowerCase().includes('hotel') || description.toLowerCase().includes('accommodation')) {
+          category = 'Accommodation';
+        } else if (description.toLowerCase().includes('activity') || description.toLowerCase().includes('tour')) {
+          category = 'Activities';
+        }
+        
+        const categoryIndex = labels.indexOf(category);
+        if (categoryIndex !== -1) {
+          data[categoryIndex] += amount;
+        } else {
+          // If category doesn't exist, add to Other
+          data[data.length - 1] += amount;
+        }
+        
+        chart.update();
+      }
+    });
+  </script>
+</body>
+</html>
