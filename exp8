@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SplitEase - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --danger: #d63031;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            padding: 2rem 1rem;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .sidebar-logo span {
+            color: var(--accent);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            margin-right: 0.8rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #5649c5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        /* Groups Section */
+        .groups-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .group-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .group-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .group-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .group-members {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .member-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            margin-right: -10px;
+            border: 2px solid white;
+        }
+
+        .member-avatar.more {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        .group-balance {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .balance-positive {
+            color: var(--success);
+        }
+
+        .balance-negative {
+            color: var(--danger);
+        }
+
+        /* Recent Activity */
+        .activity-list {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .activity-item {
+            display: flex;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-description {
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .activity-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .members-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .members-input input {
+            flex: 1;
+        }
+
+        .members-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .member-item {
+            background-color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .remove-member {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: fixed;
+                width: 250px;
+                height: 100vh;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 900;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Button (visible only on small screens) -->
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">Split<span>Ease</span></div>
+            </div>
+            
+            <div class="user-profile">
+                <div class="user-avatar" id="userAvatar">JD</div>
+                <div class="user-name" id="userName">John Doe</div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" data-page="dashboard">
+                        <i class="fas fa-home"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="groups">
+                        <i class="fas fa-users"></i>
+                        Groups
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transactions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="analytics">
+                        <i class="fas fa-chart-pie"></i>
+                        Analytics
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <button class="btn btn-primary" id="createGroupBtn">
+                    <i class="fas fa-plus"></i> New Group
+                </button>
+            </div>
+            
+            <!-- Your Groups -->
+            <section class="groups-section">
+                <div class="section-header">
+                    <h2 class="section-title">Your Groups</h2>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                
+                <div class="groups-grid" id="groupsGrid">
+                    <!-- Groups will be loaded here dynamically -->
+                    <div class="loading">Loading groups...</div>
+                </div>
+            </section>
+            
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Activity</h2>
+                </div>
+                
+                <div class="activity-list" id="activityList">
+                    <!-- Activity will be loaded here dynamically -->
+                    <div class="loading">Loading activity...</div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Group Modal -->
+    <div class="modal" id="createGroupModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Create New Group</h2>
+            <form id="createGroupForm">
+                <div class="form-group">
+                    <label for="groupName">Group Name</label>
+                    <input type="text" id="groupName" placeholder="e.g. Roommates, Trip to Bali" required>
+                </div>
+                <div class="form-group">
+                    <label for="groupCurrency">Currency</label>
+                    <select id="groupCurrency" required>
+                        <option value="USD">US Dollar ($)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="GBP">British Pound (£)</option>
+                        <option value="INR">Indian Rupee (₹)</option>
+                        <option value="JPY">Japanese Yen (¥)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Add Members</label>
+                    <div class="members-input">
+                        <input type="email" id="memberEmail" placeholder="Enter member's email">
+                        <button type="button" class="btn btn-primary" id="addMemberBtn">Add</button>
+                    </div>
+                    <div class="members-list" id="membersList"></div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Group</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let userGroups = [];
+        let userActivities = [];
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const groupsGrid = document.getElementById('groupsGrid');
+        const activityList = document.getElementById('activityList');
+        const createGroupBtn = document.getElementById('createGroupBtn');
+        const createGroupModal = document.getElementById('createGroupModal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const createGroupForm = document.getElementById('createGroupForm');
+        const addMemberBtn = document.getElementById('addMemberBtn');
+        const memberEmail = document.getElementById('memberEmail');
+        const membersList = document.getElementById('membersList');
+
+        // Check authentication and load data
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check if user is logged in
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            
+            if (!token || !userId) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Load user data
+            await loadUserData();
+            
+            // Load groups and activities
+            await loadGroups();
+            await loadActivities();
+            
+            // Set up event listeners
+            setupEventListeners();
+        });
+
+        // Functions
+        async function loadUserData() {
+            try {
+                const response = await fetch('/api/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                
+                currentUser = await response.json();
+                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
+                userName.textContent = currentUser.name;
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                showError('Failed to load user data');
+            }
+        }
+
+        async function loadGroups() {
+            try {
+                const response = await fetch('/api/groups', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch groups');
+                }
+                
+                userGroups = await response.json();
+                renderGroups();
+            } catch (error) {
+                console.error('Error loading groups:', error);
+                showError('Failed to load groups');
+            }
+        }
+
+        async function loadActivities() {
+            try {
+                const response = await fetch('/api/activities', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch activities');
+                }
+                
+                userActivities = await response.json();
+                renderActivities();
+            } catch (error) {
+                console.error('Error loading activities:', error);
+                showError('Failed to load activities');
+            }
+        }
+
+        function renderGroups() {
+            groupsGrid.innerHTML = '';
+            
+            if (userGroups.length === 0) {
+                groupsGrid.innerHTML = '<div class="empty-state">You have no groups yet. Create one to get started!</div>';
+                return;
+            }
+            
+            userGroups.forEach(group => {
+                const groupCard = document.createElement('div');
+                groupCard.className = 'group-card';
+                groupCard.dataset.groupId = group._id;
+                groupCard.innerHTML = `
+                    <div class="group-header">
+                        <div class="group-name">${group.name}</div>
+                        <div class="group-balance ${group.balance > 0 ? 'balance-positive' : group.balance < 0 ? 'balance-negative' : ''}">
+                            ${group.balance > 0 ? 'You are owed' : group.balance < 0 ? 'You owe' : 'Settled up'} $${Math.abs(group.balance).toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="group-members">
+                        ${group.members.slice(0, 3).map(member => `
+                            <div class="member-avatar" title="${member.name}">${member.name.charAt(0).toUpperCase()}</div>
+                        `).join('')}
+                        ${group.members.length > 3 ? `
+                            <div class="member-avatar more" title="${group.members.length - 3} more members">+${group.members.length - 3}</div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                groupCard.addEventListener('click', () => {
+                    window.location.href = `group.html?id=${group._id}`;
+                });
+                
+                groupsGrid.appendChild(groupCard);
+            });
+        }
+
+        function renderActivities() {
+            activityList.innerHTML = '';
+            
+            if (userActivities.length === 0) {
+                activityList.innerHTML = '<div class="empty-state">No recent activity</div>';
+                return;
+            }
+            
+            userActivities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">
+                        <i class="fas ${getActivityIcon(activity.type)}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-description">${activity.description}</div>
+                        <div class="activity-time">${formatTime(activity.createdAt)}</div>
+                    </div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        function getActivityIcon(type) {
+            const icons = {
+                'expense': 'fa-money-bill-wave',
+                'payment': 'fa-exchange-alt',
+                'group': 'fa-users',
+                'settlement': 'fa-hand-holding-usd',
+                'default': 'fa-bell'
+            };
+            return icons[type] || icons.default;
+        }
+
+        function formatTime(timestamp) {
+            const now = new Date();
+            const activityDate = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - activityDate) / 1000);
+            
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            return activityDate.toLocaleDateString();
+        }
+
+        function showError(message) {
+            const errorElement = document.createElement('div');
+            errorElement.className = 'error-message';
+            errorElement.textContent = message;
+            
+            // You can customize where to show the error
+            document.body.appendChild(errorElement);
+            
+            setTimeout(() => {
+                errorElement.remove();
+            }, 5000);
+        }
+
+        function setupEventListeners() {
+            // Mobile menu toggle
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+            
+            // Navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = link.dataset.page;
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    link.classList.add('active');
+                    
+                    // Handle navigation (in a real app, you might use a router)
+                    console.log(`Navigating to ${page}`);
+                    // For now, we'll just update the page title
+                    document.querySelector('.page-title').textContent = page.charAt(0).toUpperCase() + page.slice(1);
+                });
+            });
+            
+            // Logout
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userName');
+                window.location.href = 'login.html';
+            });
+            
+            // Create group modal
+            createGroupBtn.addEventListener('click', () => {
+                createGroupModal.style.display = 'flex';
+            });
+            
+            closeModalBtn.addEventListener('click', () => {
+                createGroupModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === createGroupModal) {
+                    createGroupModal.style.display = 'none';
+                }
+            });
+            
+            // Add member to group form
+            addMemberBtn.addEventListener('click', () => {
+                const email = memberEmail.value.trim();
+                if (!email) return;
+                
+                if (!validateEmail(email)) {
+                    showError('Please enter a valid email address');
+                    return;
+                }
+                
+                const memberItem = document.createElement('div');
+                memberItem.className = 'member-item';
+                memberItem.innerHTML = `
+                    <span>${email}</span>
+                    <button type="button" class="remove-member">&times;</button>
+                `;
+                
+                membersList.appendChild(memberItem);
+                memberEmail.value = '';
+                
+                // Add remove functionality
+                memberItem.querySelector('.remove-member').addEventListener('click', () => {
+                    memberItem.remove();
+                });
+            });
+            
+            // Create group form submission
+            createGroupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const groupName = document.getElementById('groupName').value.trim();
+                const currency = document.getElementById('groupCurrency').value;
+                const members = Array.from(document.querySelectorAll('.member-item span')).map(el => el.textContent);
+                
+                if (!groupName) {
+                    showError('Please enter a group name');
+                    return;
+                }
+                
+                if (members.length === 0) {
+                    showError('Please add at least one member');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/groups', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify({
+                            name: groupName,
+                            currency,
+                            members
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.message || 'Failed to create group');
+                    }
+                    
+                    const newGroup = await response.json();
+                    
+                    // Close modal and reset form
+                    createGroupModal.style.display = 'none';
+                    createGroupForm.reset();
+                    membersList.innerHTML = '';
+                    
+                    // Reload groups
+                    await loadGroups();
+                    
+                    // Show success message
+                    showSuccess(`Group "${newGroup.name}" created successfully!`);
+                    
+                } catch (error) {
+                    console.error('Error creating group:', error);
+                    showError(error.message || 'Failed to create group');
+                }
+            });
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function showSuccess(message) {
+            const successElement = document.createElement('div');
+            successElement.className = 'success-message';
+            successElement.textContent = message;
+            
+            document.body.appendChild(successElement);
+            
+            setTimeout(() => {
+                successElement.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
